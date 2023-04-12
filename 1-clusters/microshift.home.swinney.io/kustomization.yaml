@@ -1,2 +1,2 @@
 resources:
-  - services/metallb-app.yaml
+#  - services/metallb-app.yaml
