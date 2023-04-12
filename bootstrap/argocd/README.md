@@ -16,7 +16,7 @@
 3. Retrieve admin login details
 
    ```bash
-   echo $(oc get route -n argocd microshift-argocd -o template --template='https://{{.spec.host}}')
+   echo $(oc get route -n argocd argocd-server -o template --template='https://{{.spec.host}}')
 
    oc extract secrets/argocd-initial-admin-secret  --keys=password -n argocd --to=-
    ```

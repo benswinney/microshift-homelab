@@ -1,5 +1,4 @@
 resources:
-  - argocd-instance.yaml
   - argocd-cm.yaml
 
 patchesStrategicMerge:
