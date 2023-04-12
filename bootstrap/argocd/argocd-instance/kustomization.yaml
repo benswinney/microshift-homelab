@@ -1,0 +1,15 @@
+resources:
+  - argocd-instance.yaml
+  - argocd-cm.yaml
+
+patchesStrategicMerge:
+  # Platform
+  - resource-customizations/k8s.yaml
+  - resource-customizations/openshift.yaml
+
+  # Platform services
+  - resource-customizations/kubevirt.yaml
+  - resource-customizations/external-secrets.yaml
+  
+  # Apps
+  - resource-customizations/argocd.yaml
