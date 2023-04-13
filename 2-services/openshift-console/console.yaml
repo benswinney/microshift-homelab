@@ -49,6 +49,10 @@ metadata:
   labels:
     app: openshift-console
 spec:
+  securityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
   replicas: 1
   selector:
     matchLabels:
@@ -60,6 +64,10 @@ spec:
     spec:
       containers:
       - name: openshift-console-app
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
         image: quay.io/openshift/origin-console:4.12.0
         env:
         - name: BRIDGE_USER_AUTH
