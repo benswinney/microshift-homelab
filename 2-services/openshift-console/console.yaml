@@ -60,7 +60,7 @@ spec:
       securityContext:
         runAsNonRoot: true
         seccompProfile:
-        type: RuntimeDefault
+          type: RuntimeDefault
       containers:
       - name: openshift-console-app
         securityContext:
