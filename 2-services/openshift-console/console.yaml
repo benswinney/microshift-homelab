@@ -49,19 +49,19 @@ metadata:
   labels:
     app: openshift-console
 spec:
-  securityContext:
-    runAsNonRoot: true
-    seccompProfile:
-      type: RuntimeDefault
+  
   replicas: 1
   selector:
-    matchLabels:
       app: openshift-console
   template:
     metadata:
       labels:
         app: openshift-console
     spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+        type: RuntimeDefault
       containers:
       - name: openshift-console-app
         securityContext:
