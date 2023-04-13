@@ -50,8 +50,8 @@ metadata:
     app: openshift-console
 spec:
   replicas: 1
-#  selector:
-#      app: openshift-console
+  selector:
+      app: openshift-console
   template:
     metadata:
       labels:
@@ -62,7 +62,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-      - name: openshift-console-app
+      - name: openshift-console
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
