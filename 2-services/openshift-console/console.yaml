@@ -50,8 +50,8 @@ metadata:
     app: openshift-console
 spec:
   replicas: 1
-  selector:
-      app: openshift-console
+#  selector:
+#      app: openshift-console
   template:
     metadata:
       labels:
