@@ -51,6 +51,7 @@ metadata:
 spec:
   replicas: 1
   selector:
+    matchLabels:
       app: openshift-console
   template:
     metadata:
