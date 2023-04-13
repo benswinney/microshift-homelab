@@ -1,4 +1,4 @@
 resources:
-  - services/openshift-console-app.yaml
+#  - services/openshift-console-app.yaml
   - services/metallb-app.yaml
 #  - apps/plex-app.yaml
