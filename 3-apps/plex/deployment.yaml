@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: plexserver               # < label for tagging and reference
+  name: plexserver                # < name of the deployment
+  namespace: media           # < namespace where to place the deployment and pods               # < namespace where place the deployment and pods
+spec:
+  replicas: 1                     # < number of pods to deploy
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: plexserver
+  strategy:
+    rollingUpdate:
+      maxSurge: 0                 # < The number of pods that can be created above the desired amount of pods during an update
+      maxUnavailable: 1           # < The number of pods that can be unavailable during the update process
+    type: RollingUpdate           # < New pods are added gradually, and old pods are terminated gradually
+  template:
+    metadata:
+      labels:
+        app: plexserver
+    spec:
+      volumes:
+      - name: plex-config     # < linkname of the volume for the pvc
+        persistentVolumeClaim:
+          claimName: plexserver-config  # < pvc name we created in the previous yaml
+      - name: plex-data
+        persistentVolumeClaim:
+          claimName: plexserver-data
+      containers:
+      - env:                       # < environment variables. See https://hub.docker.com/r/linuxserver/plex
+        - name: PLEX_CLAIM
+          value:  
+        - name: PGID
+          value: "\x31\x30\x30"    # < ASCII code for '100'
+        - name: PUID
+          value: "\x31\x30\x33\x35" # < ACII code for '1035'
+        - name: VERSION
+          value: latest
+        - name: TZ
+          value: Australia/Melbourne  # < Timezone
+        image: ghcr.io/linuxserver/plex   # < the name of the docker image we will use
+        imagePullPolicy: Always    # < always use the latest image when creating container/pod
+        name: plexserver           # < name of container
+        ports:
+        - containerPort: 32400     # < required network portnumber. See https://hub.docker.com/r/linuxserver/plex
+          name: pms-web            # < reference name from the port in the service yaml
+          protocol: TCP
+        - containerPort: 32469
+          name: dlna-tcp
+          protocol: TCP
+        - containerPort: 1900
+          name: dlna-udp
+          protocol: UDP
+        - containerPort: 3005
+          name: plex-companion
+          protocol: TCP  
+        - containerPort: 5353
+          name: discovery-udp
+          protocol: UDP  
+        - containerPort: 8324
+          name: plex-roku
+          protocol: TCP  
+        - containerPort: 32410
+          name: gdm-32410
+          protocol: UDP
+        - containerPort: 32412
+          name: gdm-32412
+          protocol: UDP
+        - containerPort: 32413
+          name: gdm-32413
+          protocol: UDP
+        - containerPort: 32414
+          name: gdm-32414
+          protocol: UDP
+        resources: {}
+        stdin: true
+        tty: true
+        volumeMounts:            # < the volume mount in the container. Look at the relation volumelabel->pvc->pv
+        - mountPath: /config     # < mount location in the container
+          name: plex-config  # < volumelabel configured earlier in the yaml file
+        - mountPath: /data
+          name: plex-data 
+      restartPolicy: Always

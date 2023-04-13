@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plexserver-config   # < name of the persistant volume claim ("pvc'")
+  namespace: media         # < namespace where place the pvc
+spec:
+  storageClassName: "topolvm-provisioner"
+  accessModes:
+    - ReadWriteMany             # < Multiple pods can write to storage. Same value as pv
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plexserver-data
+  namespace: media
+spec:
+  storageClassName: "topolvm-provisioner"
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi
